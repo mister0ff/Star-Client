@@ -2,13 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissões de Rede -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-
-    <!-- Permissões de Armazenamento e Sistema -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -19,7 +16,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!-- Recursos de Hardware -->
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -27,7 +23,6 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
-    <!-- Permite ao launcher detectar e interagir com o Minecraft oficial (Android 11+) -->
     <queries>
         <package android:name="com.mojang.minecraftpe" />
     </queries>
@@ -40,7 +35,6 @@
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
-        <!-- Tela Principal / Menu do Launcher -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -52,7 +46,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Preloader do Jogo (Injeta as bibliotecas nativas antes de executar o motor) -->
         <activity
             android:name=".core.minecraft.MinecraftActivity"
             android:alwaysRetainTaskState="true"
@@ -63,13 +56,11 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.NoActionBar">
 
-            <!-- Aponta para a libgxcore.so carregar a NativeActivity -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="gxcore" />
         </activity>
 
-        <!-- Provedor para leitura de arquivos/mods (Necessita do arquivo res/xml/file_paths.xml) -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
