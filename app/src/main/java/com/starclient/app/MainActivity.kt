@@ -1,5 +1,6 @@
 package com.starclient.app
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -13,6 +14,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             loadingLayout.visibility = View.GONE
             contentLayout.visibility = View.VISIBLE
 
-            statusText.text = "Star Client Embutido ✔"
+            statusText.text = "Star Client Pronto ✔"
             playButton.isEnabled = true
             playButton.text = "JOGAR"
         }, splashDelayMs)
@@ -61,13 +63,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchInternalGame() {
         try {
+            // Tenta abrir a Activity do Minecraft dentro deste aplicativo
             val intent = Intent().apply {
                 setClassName(packageName, "com.mojang.minecraftpe.MainActivity")
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showErrorDialog("Classe do jogo não encontrada no APK", "Certifique-se de que o código descompilado do Minecraft está dentro do mesmo módulo do projeto.\n\nErro: ${e.localizedMessage}")
+        } catch (e: UnsatisfiedLinkError) {
+            showErrorDialog("Bibliotecas C++ (.so) ausentes", "Adicione os arquivos '.so' na pasta 'src/main/jniLibs/arm64-v8a/'.\n\nErro: ${e.localizedMessage}")
         } catch (e: Exception) {
-            Toast.makeText(this, "Falha ao iniciar o jogo interno: ${e.message}", Toast.LENGTH_LONG).show()
+            showErrorDialog("Erro ao abrir o jogo", e.localizedMessage ?: "Falha desconhecida")
         }
+    }
+
+    private fun showErrorDialog(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK", null)
+            .show()
     }
 }
