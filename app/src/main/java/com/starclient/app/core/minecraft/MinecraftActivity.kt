@@ -11,10 +11,21 @@ class MinecraftActivity : NativeActivity() {
 
     companion object {
         init {
-            try {
-                System.loadLibrary("gxcore")
-            } catch (e: UnsatisfiedLinkError) {
-                e.printStackTrace()
+            val libs = listOf(
+                "c++_shared",           // Dependência C++ do NDK
+                "PlayFabMultiplayer",
+                "maesdk",
+                "inbuiltmods",
+                "gxcore"                // O núcleo do preloader por último
+            )
+
+            for (lib in libs) {
+                try {
+                    System.loadLibrary(lib)
+                } catch (e: Throwable) {
+                    // Loga caso alguma biblioteca falhe no carregamento
+                    e.printStackTrace()
+                }
             }
         }
     }
