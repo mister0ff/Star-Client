@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         val statusText = findViewById<TextView>(R.id.statusText)
         val playButton = findViewById<Button>(R.id.playButton)
 
-        // Tela de carregamento (splash) antes de liberar o botão Jogar
         Handler(Looper.getMainLooper()).postDelayed({
             loadingLayout.visibility = android.view.View.GONE
             contentLayout.visibility = android.view.View.VISIBLE
@@ -44,12 +43,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isMinecraftInstalled(): Boolean {
-        return try {
+        val foundByPackageInfo = try {
             packageManager.getPackageInfo(MINECRAFT_PACKAGE, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
+
+        if (foundByPackageInfo) return true
+
+        return packageManager.getLaunchIntentForPackage(MINECRAFT_PACKAGE) != null
     }
 
     private fun launchMinecraft() {
@@ -62,4 +65,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
