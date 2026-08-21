@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- Launcher Interface Principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -33,15 +32,13 @@
             </intent-filter>
         </activity>
 
-        <!-- Executável do Motor do Jogo Embutido -->
         <activity
             android:name="com.mojang.minecraftpe.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallScreenSize|screenLayout|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
             android:exported="false"
             android:label="Star Client Engine"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
-        <!-- Autenticação do Xbox Live / Microsoft -->
         <activity
             android:name="com.microsoft.xal.browser.IntentHandler"
             android:exported="true"
@@ -59,7 +56,6 @@
             android:exported="true"
             android:launchMode="singleTask" />
 
-        <!-- Serviços do Jogo -->
         <service
             android:name="com.mojang.minecraftpe.ImportService"
             android:exported="false" />
