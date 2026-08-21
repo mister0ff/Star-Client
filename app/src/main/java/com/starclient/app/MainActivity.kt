@@ -1,11 +1,14 @@
-package starclient
+package com.starclient.app
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -26,8 +29,7 @@ class MainActivity : AppCompatActivity() {
         val statusText = findViewById<TextView>(R.id.statusText)
         val playButton = findViewById<Button>(R.id.playButton)
 
-        // cria a pasta independente do app: Android/media/starclient/
-        setupIndependentStorage()
+        checkStoragePermissionAndSetup()
 
         Handler(Looper.getMainLooper()).postDelayed({
             loadingLayout.visibility = android.view.View.GONE
@@ -47,33 +49,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkStoragePermissionAndSetup() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                try {
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                    intent.data = Uri.parse("package:$packageName")
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                }
+                return
+            }
+        }
+        setupIndependentStorage()
+    }
+
     /**
-     * Cria (se não existir) a pasta própria e independente do app em:
-     * /storage/emulated/0/Android/media/starclient/
-     * Essa pasta é liberada automaticamente pelo Android para o próprio app,
-     * sem precisar pedir permissão de armazenamento.
+     * Cria a pasta independente: /storage/emulated/0/Android/media/starclient/
      */
     private fun setupIndependentStorage() {
         try {
-            val mediaDirs = getExternalMediaDirs()
-            val baseDir = if (mediaDirs.isNotEmpty() && mediaDirs[0] != null) {
-                mediaDirs[0]
-            } else {
-                // fallback caso não haja armazenamento externo disponível
-                File(filesDir, "starclient")
-            }
+            val baseDir = File(Environment.getExternalStorageDirectory(), "Android/media/starclient")
+            if (!baseDir.exists()) baseDir.mkdirs()
 
-            if (!baseDir.exists()) {
-                baseDir.mkdirs()
-            }
-
-            // subpasta de configurações do app, dentro da pasta independente
             val configDir = File(baseDir, "config")
-            if (!configDir.exists()) {
-                configDir.mkdirs()
-            }
+            if (!configDir.exists()) configDir.mkdirs()
         } catch (e: Exception) {
             Toast.makeText(this, "Não foi possível criar a pasta do app", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
+            setupIndependentStorage()
         }
     }
 
@@ -84,9 +94,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
-
         if (foundByPackageInfo) return true
-
         return packageManager.getLaunchIntentForPackage(MINECRAFT_PACKAGE) != null
     }
 
