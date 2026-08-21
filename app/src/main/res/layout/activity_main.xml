@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101014">
+    android:background="#0B0B0B">
 
     <!-- TELA DE CARREGAMENTO -->
     <LinearLayout
@@ -16,24 +16,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Star Client"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
+            android:text="STAR CLIENT"
+            android:textColor="#B23A2E"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_marginBottom="32dp" />
+            android:fontFamily="monospace"
+            android:letterSpacing="0.08"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="0"
+            android:layout_marginBottom="40dp" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="#4C8DFF" />
+            android:indeterminateTint="#B23A2E" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carregando..."
-            android:textColor="#AAAAAA"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp" />
+            android:text="CARREGANDO..."
+            android:textColor="#B5A9A9"
+            android:textSize="13sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.05"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 
@@ -44,35 +52,63 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="24dp"
+        android:padding="28dp"
         android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Star Client"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:text="STAR CLIENT"
+            android:textColor="#B23A2E"
+            android:textSize="32sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:fontFamily="monospace"
+            android:letterSpacing="0.08"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="0"
+            android:layout_marginBottom="28dp" />
 
         <TextView
             android:id="@+id/statusText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#CCCCCC"
-            android:textSize="15sp"
-            android:layout_marginBottom="32dp" />
+            android:background="#1A1414"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#F2F2F2"
+            android:textSize="13sp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="40dp" />
 
-        <Button
-            android:id="@+id/playButton"
-            android:layout_width="220dp"
-            android:layout_height="56dp"
-            android:text="JOGAR"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="#4C8DFF"
-            android:textColor="#FFFFFF" />
+        <!-- Moldura preta simulando borda de bloco -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="232dp"
+                android:layout_height="56dp"
+                android:text="JOGAR"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:backgroundTint="#8B1A1A"
+                android:textColor="#F2F2F2"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="0"
+                android:stateListAnimator="@null" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
