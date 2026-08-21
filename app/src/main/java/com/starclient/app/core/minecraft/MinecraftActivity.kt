@@ -11,7 +11,6 @@ class MinecraftActivity : NativeActivity() {
 
     companion object {
         init {
-            // Garante que o preloader nativo é carregado na memória
             try {
                 System.loadLibrary("gxcore")
             } catch (e: UnsatisfiedLinkError) {
