@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-    <queries>
-        <package android:name="com.starclient.minecraft" />
-        <package android:name="com.mojang.minecraftpe" />
-    </queries>
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- Launcher Interface Principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -29,6 +32,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Executável do Motor do Jogo Embutido -->
+        <activity
+            android:name="com.mojang.minecraftpe.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallScreenSize|screenLayout|uiMode"
+            android:exported="false"
+            android:label="Star Client Engine"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <!-- Autenticação do Xbox Live / Microsoft -->
+        <activity
+            android:name="com.microsoft.xal.browser.IntentHandler"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="auth" android:scheme="xal" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.microsoft.xal.browser.BrowserLaunchActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+
+        <!-- Serviços do Jogo -->
+        <service
+            android:name="com.mojang.minecraftpe.ImportService"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
